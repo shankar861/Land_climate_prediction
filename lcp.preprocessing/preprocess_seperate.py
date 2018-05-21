@@ -3,7 +3,8 @@ import numpy as np
 import math as m
 import pickle
 import copy
-
+import properties
+import os
 
 def preprocess(X_train, X_test, Y_train, Y_test):
     [tr_sample, num_feature] = X_train.shape
@@ -76,6 +77,8 @@ def preprocess(X_train, X_test, Y_train, Y_test):
     model_Y.append(Y_test)
     return (model_X,model_Y)
 
+os.chdir(properties.Data_path)
+
 name_mat=['X_tos_2.5x2.5.mat','X_tos_5x5.mat','X_tos_10x10.mat']
 name_file=['X_sep_2x2.p','X_sep_5x5.p','X_sep_10x10.p']
 for name in range(3):
@@ -92,9 +95,9 @@ for name in range(3):
         Y_data=copy.deepcopy(Y[Model_index[i][0]:Model_index[i][1]])
         Y_data=Y_data[:,(0,3,6)]
         [num_sample,num_feature]=X_data.shape
-        train_years=100
-        test_years=10
-        step_size=10
+        train_years=properties.Train_size
+        test_years=properties.Test_size
+        step_size=properties.Step_size
         num_years=num_sample/12
         if test_years<=step_size:
             num_window=m.floor(float(num_years-train_years)/step_size)
